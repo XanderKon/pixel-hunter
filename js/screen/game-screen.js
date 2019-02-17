@@ -1,10 +1,10 @@
-import HeaderView from './view/header-view';
-import LevelView from './view/level-view';
-import StatsView from './view/stats-view';
-import intro from './view/intro-view';
-import GameModel from './data/game-model';
-import emitter from './emitter';
-import renderScreen from './render-screens';
+// import StatsView from './stats-screen';
+// import intro from './intro-screen';
+import GameModel from '../data/game-model';
+import emitter from '../emitter';
+import HeaderView from '../view/header-view';
+import LevelView from '../view/level-view';
+import Application from '../application';
 
 class GamePresenter {
   constructor() {
@@ -16,7 +16,7 @@ class GamePresenter {
     this.root.appendChild(this.content.element);
 
     emitter.on('answer', (answer) => game.onAnswer(answer));
-    emitter.on('restart', () => game.restartGame());
+    emitter.on('restart', () => game.exitGame());
 
     this._interval = null;
   }
@@ -51,18 +51,21 @@ class GamePresenter {
     }
   }
 
-  restartGame() {
+  exitGame() {
     this.stopGame();
     GameModel.restart();
-    renderScreen(intro);
+    Application.showIntro();
+  }
+
+  restartGame() {
+    GameModel.restart();
   }
 
   endGame() {
-    const element = document.createElement('div');
-    element.appendChild(new HeaderView().element);
-    element.appendChild(new StatsView(GameModel.scores, GameModel.result()).element);
-
-    renderScreen(element);
+    // const element = document.createElement('div');
+    // element.appendChild(new HeaderView().element);
+    // element.appendChild(new StatsView().element);
+    Application.showStats(GameModel.scores, GameModel.result());
   }
 
   updateHeader() {
@@ -99,7 +102,7 @@ class GamePresenter {
 const game = new GamePresenter();
 
 export default () => {
-  GameModel.restart();
+  game.restartGame();
   game.startGame();
-  renderScreen(game.root);
+  return game.root;
 };

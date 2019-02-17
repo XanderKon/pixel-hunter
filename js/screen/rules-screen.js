@@ -1,14 +1,17 @@
-import startGame from '../game-screen';
+import Application from '../application';
 import AbstractView from '../view';
+import HeaderView from '../view/header-view';
 
 
 class RulesView extends AbstractView {
   constructor() {
     super();
+    this.header = new HeaderView();
   }
 
   getMarkup() {
     return `\
+      <div>${this.header.getMarkup()}</div>
       <div class="rules central--none">
         <h1 class="rules__title">Правила</h1>
         <p class="rules__description">Угадай 10 раз для каждого изображения фото
@@ -35,7 +38,7 @@ class RulesView extends AbstractView {
     };
 
     rulesSubmit.onclick = () => {
-      startGame();
+      Application.showGame();
     };
   }
 }

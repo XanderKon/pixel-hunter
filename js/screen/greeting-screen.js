@@ -1,7 +1,7 @@
-import renderScreen from '../render-screens';
-import rules from './rules-view';
+import Application from '../application';
+// import rules from './rules-screen';
 import AbstractView from '../view';
-import HeaderView from './header-view';
+// import HeaderView from '../view/header-view';
 
 class GreetingView extends AbstractView {
 
@@ -24,12 +24,11 @@ class GreetingView extends AbstractView {
 
   bindHandlers() {
     this.element.querySelector('.greeting__continue').onclick = () => {
-      const element = document.createElement('div');
-
-      element.appendChild(new HeaderView().element);
-      element.appendChild(rules);
-
-      renderScreen(element);
+      // const element = document.createElement('div');
+      //
+      // element.appendChild(new HeaderView().element);
+      // element.appendChild(rules);
+      Application.showRules();
     };
   }
 }
